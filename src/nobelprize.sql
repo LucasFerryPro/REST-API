@@ -21,9 +21,11 @@ CREATE TABLE Categories
 
 CREATE TABLE Prizes
 (
-    id_laureate  INT NOT NULL PRIMARY KEY REFERENCES Laureates (id_laureate),
-    id_categorie INT NOT NULL PRIMARY KEY REFERENCES Categories (id_categorie),
-    year         INT NOT NULL PRIMARY KEY,
-    motivation   VARCHAR(100)
-
+    id_laureate  INT NOT NULL,
+    id_categorie INT NOT NULL,
+    year         INT NOT NULL,
+    motivation   VARCHAR(100),
+    CONSTRAINT pk_prize PRIMARY KEY (id_laureate, id_categorie, year),
+    CONSTRAINT fk_prize_laureate FOREIGN KEY (id_laureate) REFERENCES Laureates (id_laureate),
+    CONSTRAINT fk_prize_categorie FOREIGN KEY (id_categorie) REFERENCES Categories (id_categorie)
 );
