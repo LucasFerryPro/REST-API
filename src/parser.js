@@ -12,10 +12,10 @@ for (let i = 0; i < json.length; i++) {
             pool.query('SELECT * FROM laureates WHERE id_laureate = $1', [l[j].id], (error, results) => {
                 if (error) throw error
                 if (results.rowCount === 0) {
-                    pool.query('INSERT INTO laureates (id_laureate, firstname, surname) VALUES ($1,$2,$3)',[l[j].id,l[j].firstname,l[j].surname], (err, res) => {
+                    pool.query('INSERT INTO laureates (id_laureate, firstname, surname) VALUES ($1,$2,$3)',[l[j].id,l[j].firstname,l[j].surname], (err) => {
                         if(err) console.log(err);
-                        else {
-                            console.log(res.rows);
+                        else{
+
                         }
                     })
                 }
