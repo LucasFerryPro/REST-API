@@ -10,7 +10,7 @@ async function insert() {
     let laureate_ids = [];
     let categories = [];
     await pool.query('TRUNCATE Nominations, Laureates, Prizes, Categories');
-    for (let i = 0; i < data.length; i++)
+    for (let i = 0; i < data.length; i++){
 
 
         //trouver un moyen de récupérer l'id de la catégorie et la liste d'id de laureats
