@@ -27,7 +27,16 @@ async function insertLaureates() {
 
 
 async function insertCategories(){
-
+    const categories = [];
+    for (let i = 0; i < data.length; i++) {
+        if (!data[i].category) { continue; }
+        if (!categories.includes(data[i].label)) {
+            categories.push(data[i].label);
+            await pool.query('INSERT INTO Categories (label) VALUES ($1)', [data[i].label], (err) => {
+                if (err) throw err;
+            });
+        }
+    }
 }
 
-insertLaureates()
+insertCategories();
