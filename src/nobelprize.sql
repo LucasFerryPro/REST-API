@@ -24,10 +24,8 @@ CREATE TABLE Laureates
 (
     id_laureate SERIAL
         CONSTRAINT pk_laureate PRIMARY KEY,
-    id_prize    INT NOT NULL,
     firstname   VARCHAR(200),
-    surname     VARCHAR(200),
-    CONSTRAINT fk_laureate_prize FOREIGN KEY (id_prize) REFERENCES Prizes (id_prize)
+    surname     VARCHAR(200)
 );
 
 CREATE TABLE Nominations

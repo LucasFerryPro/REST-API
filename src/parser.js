@@ -21,6 +21,11 @@ async function getCategorie(label){
     return category.rows[0].id_categorie;
 }
 
+async function getLaureate(firstname, surname){
+    let laureate = await pool.query('SELECT * FROM laureates WHERE firstname = $1 AND surname = $2',[firstname,surname]);
+    return laureate.rows[0].id_laureate;
+}
+
 async function insertCategories(){
     let categories = [];
     for (let i = 0; i < data.length; i++) {
@@ -56,8 +61,8 @@ async function insertLaureates(){
             for (let j = 0; j < datas.laureates.length; j++) {
                 if (!laureate_ids.includes(datas.laureates[j].id)) {
                     laureate_ids.push(datas.laureates[j].id);
-                    await pool.query('INSERT INTO laureates (id_laureate, firstname, surname,id_prize) VALUES ($1,$2,$3,$4)',
-                        [datas.laureates[j].id, datas.laureates[j].firstname, datas.laureates[j].surname,i], (err) => {
+                    await pool.query('INSERT INTO laureates (id_laureate, firstname, surname) VALUES ($1,$2,$3)',
+                        [datas.laureates[j].id, datas.laureates[j].firstname, datas.laureates[j].surname], (err) => {
                             if (err) throw err;
                         });
                 }
@@ -66,12 +71,28 @@ async function insertLaureates(){
     }
 }
 
+async function insertNominations(){
+    for (let i = 0; i < data.length; i++) {
+        datas = data[i];
+        if (datas.laureates) {
+            for (let j = 0; j < datas.laureates.length; j++) {
+                await pool.query('INSERT INTO nominations (id_prize,id_laureate,motivation) VALUES ($1,$2,$3)',
+                    [i,await getLaureate(datas.laureates[j].firstname,datas.laureates[j].surname),datas.laureates[j].motivation], (err) => {
+                        if (err) throw err;
+                });
+            }
+        }
+    }
+}
+
 
 async function insert() {
     await truncate( async ()=>{
-        await insertCategories()
+        await insertCategories();
         await insertPrizes();
-        await insertLaureates();
+        await insertLaureates().then(async ()=>{
+            await insertNominations();
+        });
     });
 }
 

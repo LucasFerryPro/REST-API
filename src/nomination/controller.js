@@ -1,4 +1,4 @@
-const pool = require('./db');
+const pool = require('../db');
 const queries = require('./queries');
 
 const updateMotivation = (req, res) => {
@@ -8,4 +8,8 @@ const updateMotivation = (req, res) => {
         if (error) { throw error; }
         res.status(200).send(`Laureate updated with ID: ${id}`)
     });
+}
+
+module.exports = {
+    updateMotivation
 }
