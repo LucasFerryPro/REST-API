@@ -6,9 +6,10 @@ const dataBuffer = fs.readFileSync("prize.json");
 let data = dataBuffer.toString();
 data = JSON.parse(data);
 
-async function truncate(){
+async function truncate(callback){
     await pool.query('TRUNCATE TABLE Nominations, Laureates, Prizes, Categories', (err) => {
         if (err) throw err;
+        callback();
     });
 }
 
@@ -74,4 +75,4 @@ async function insert() {
     });
 }
 
-await insert();
+insert();
