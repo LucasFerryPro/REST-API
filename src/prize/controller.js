@@ -1,4 +1,4 @@
-const pool = require('./db');
+const pool = require('../../db');
 const queries = require('./queries');
 
 const getNbLaureatesByYear = (req, res) => {
@@ -21,4 +21,10 @@ const getLaureatesByYear = (req, res) => {
         if (error) { throw error; }
         res.status(200).json(results.rows)
     });
+}
+
+module.exports = {
+    getNbLaureatesByYear,
+    getYearsWithNoPrize,
+    getLaureatesByYear
 }
