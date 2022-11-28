@@ -3,8 +3,8 @@ const controllers = require('./controller');
 
 const router = Router();
 
-router.get('/prizes', controllers.getNbLaureatesByYear);
-router.get('/prizes/none', controllers.getYearsWithNoPrize);
-router.get('/prizes/:year', controllers.getLaureatesByYear);
+router.get('/', controllers.getNbLaureatesByYear);
+router.get('/none', controllers.getYearsWithNoPrize);
+router.get('/:year', controllers.getLaureatesByYear);
 
 module.exports = router;

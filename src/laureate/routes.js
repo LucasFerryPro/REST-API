@@ -3,9 +3,9 @@ const controllers = require('./controller');
 
 const router = Router();
 
-router.get('/laureates', controllers.getLaureates);
-router.get('/laureates/:id', controllers.getLaureate);
-router.get('/laureates/morethanoneprize', controllers.getLaureatesWithMoreThanOnePrize);
-router.delete('/laureates/:id', controllers.deleteLaureate);
+router.get('/', controllers.getLaureates);
+router.get('/morethanoneprize', controllers.getLaureatesWithMoreThanOnePrize);
+router.get('/:id', controllers.getLaureate);
+router.delete('/:id', controllers.deleteLaureate);
 
 module.exports = router;
