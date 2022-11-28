@@ -6,11 +6,8 @@ const dataBuffer = fs.readFileSync("prize.json");
 let data = dataBuffer.toString();
 data = JSON.parse(data);
 
-async function truncate(callback){
-    await pool.query('TRUNCATE TABLE Nominations, Laureates, Prizes, Categories', (err) => {
-        if (err) throw err;
-        callback();
-    });
+async function truncate(){
+    await pool.query('TRUNCATE TABLE Nominations, Laureates, Prizes, Categories');
 }
 
 
@@ -22,8 +19,15 @@ async function getCategorie(label){
 }
 
 async function getLaureate(firstname, surname){
-    let laureate = await pool.query('SELECT * FROM laureates WHERE firstname = $1 AND surname = $2',[firstname,surname]);
-    return laureate.rows[0].id_laureate;
+    for (let i = 0; i < data.length; i++) {
+        if(data[i].laureates){
+            for (let j = 0; j < data[i].laureates.length; j++) {
+                if(data[i].laureates[j].firstname === firstname && data[i].laureates[j].surname === surname){
+                    return data[i].laureates[j].id;
+                }
+            }
+        }
+    }
 }
 
 async function insertCategories(){
@@ -87,13 +91,11 @@ async function insertNominations(){
 
 
 async function insert() {
-    await truncate( async ()=>{
-        await insertCategories();
-        await insertPrizes();
-        await insertLaureates().then(async ()=>{
-            await insertNominations();
-        });
-    });
+    await truncate();
+    await insertCategories();
+    await insertPrizes();
+    await insertLaureates()
+    await insertNominations();
 }
 
 insert();
