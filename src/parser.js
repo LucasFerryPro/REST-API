@@ -73,9 +73,9 @@ async function insertLaureates(){
     }
 }
 
-insertQueryLaureates = async (id, firstname, surname, id_prize) => {
-    await pool.query('INSERT INTO laureates (id_laureate, firstname, surname,id_prize) VALUES ($1,$2,$3,$4)',
-        [id, firstname, surname,id_prize], (err) => {
+insertQueryLaureates = async (id, firstname, surname) => {
+    await pool.query('INSERT INTO laureates (id_laureate, firstname, surname) VALUES ($1,$2,$3)',
+        [id, firstname, surname], (err) => {
             if (err) throw err
         });
 }
