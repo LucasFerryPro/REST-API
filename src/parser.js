@@ -60,19 +60,24 @@ async function insertPrizes(){
 async function insertLaureates(){
     let laureate_ids = [];
     for (let i = 0; i < data.length; i++) {
-        datas = data[i];
-        if (datas.laureates) {
-            for (let j = 0; j < datas.laureates.length; j++) {
-                if (!laureate_ids.includes(datas.laureates[j].id)) {
-                    laureate_ids.push(datas.laureates[j].id);
-                    await pool.query('INSERT INTO laureates (id_laureate, firstname, surname) VALUES ($1,$2,$3)',
-                        [datas.laureates[j].id, datas.laureates[j].firstname, datas.laureates[j].surname], (err) => {
-                            if (err) throw err;
-                        });
-                }
+        let laureates = data[i].laureates;
+        if (!laureates) { continue; } // if no laureates, skip
+        for (let j = 0; j < laureates.length; j++) {
+            if (!laureate_ids.includes(laureates[j].id)) {
+                laureate_ids.push(laureates[j].id);
+                await insertQueryLaureates(laureates[j].id, laureates[j].firstname, laureates[j].surname,i).then(() => {
+                    console.log("inserted laureate " + laureates[j].id);
+                });
             }
         }
     }
+}
+
+insertQueryLaureates = async (id, firstname, surname, id_prize) => {
+    await pool.query('INSERT INTO laureates (id_laureate, firstname, surname,id_prize) VALUES ($1,$2,$3,$4)',
+        [id, firstname, surname,id_prize], (err) => {
+            if (err) throw err
+        });
 }
 
 async function insertNominations(){

@@ -2,7 +2,8 @@
 const getNbLaureatesByYear = "SELECT prizes.year, COUNT(*) AS nb_lauréats FROM prizes INNER JOIN nominations ON prizes.id_prize = nominations.id_prize GROUP BY prizes.year ORDER BY prizes.year";
 
 // F7 : Afficher toutes les années au cours desquelles aucun prix Nobel n'a été décerné
-const getYearsWithNoPrize = "SELECT prizes.year FROM prizes LEFT JOIN nominations ON prizes.id_prize = nominations.id_prize WHERE nominations.id_laureate IS NULL";
+const getYearsWithNoPrize = "SELECT year FROM prizes WHERE year NOT IN (SELECT year FROM prizes INNER JOIN nominations ON prizes.id_prize = nominations.id_prize) GROUP BY year ORDER BY year"
+;
 
 // F8 : Afficher toutes les années de prix nobel triées par nombre de lauréats ascendant/descendant
 const getYearsByNbLaureates = "SELECT prizes.year, COUNT(*) AS nb_lauréats FROM prizes INNER JOIN nominations ON prizes.id_prize = nominations.id_prize GROUP BY prizes.year ORDER BY nb_lauréats DESC";
