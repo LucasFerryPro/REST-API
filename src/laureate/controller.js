@@ -1,4 +1,4 @@
-const pool = require('../../db');
+const pool = require('../db');
 const queries = require('./queries');
 
 
@@ -10,11 +10,19 @@ const getLaureates = (req, res) => {
 }
 
 const getLaureate = (req, res) => {
+    let results;
     const id = parseInt(req.params.id);
-    pool.query(queries.getLaureate, [id], (error, results) => {
+    pool.query(queries.getLaureate, [id], (error, resu) => {
         if (error) { throw error; }
-        res.status(200).json(results.rows)
+        results = resu.rows[0];
+        pool.query(queries.getPrizeByLaureate, [id], (error, resu) => {
+            if (error) { throw error; }
+            results.prizes = resu.rows;
+            console.log(results)
+            res.status(200).json(results)
+        });
     });
+
 }
 
 const getLaureatesWithMoreThanOnePrize = (req, res) => {

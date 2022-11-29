@@ -6,10 +6,12 @@ const getYearsWithNoPrize = "SELECT year FROM prizes WHERE year NOT IN (SELECT y
 ;
 
 // F8 : Afficher toutes les années de prix nobel triées par nombre de lauréats ascendant/descendant
-const getYearsByNbLaureates = "SELECT prizes.year, COUNT(*) AS nb_lauréats FROM prizes INNER JOIN nominations ON prizes.id_prize = nominations.id_prize GROUP BY prizes.year ORDER BY nb_lauréats DESC";
+const getYearsByNbLaureatesASC = "SELECT prizes.year, COUNT(*) AS nb_lauréats FROM prizes INNER JOIN nominations ON prizes.id_prize = nominations.id_prize GROUP BY prizes.year ORDER BY nb_lauréats ASC";
+const getYearsByNbLaureatesDESC = "SELECT prizes.year, COUNT(*) AS nb_lauréats FROM prizes INNER JOIN nominations ON prizes.id_prize = nominations.id_prize GROUP BY prizes.year ORDER BY nb_lauréats DESC";
 
 module.exports = {
     getNbLaureatesByYear,
     getYearsWithNoPrize,
-    getYearsByNbLaureates
+    getYearsByNbLaureatesASC,
+    getYearsByNbLaureatesDESC
 }
