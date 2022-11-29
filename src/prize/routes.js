@@ -5,6 +5,6 @@ const router = Router();
 
 router.get('/', controllers.getNbLaureatesByYear);
 router.get('/none', controllers.getYearsWithNoPrize);
-router.get('/:year', controllers.getLaureatesByYear);
+router.get('/:year', controllers.getYearsByNbLaureates);
 
 module.exports = router;
