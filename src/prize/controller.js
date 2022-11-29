@@ -15,9 +15,9 @@ const getYearsWithNoPrize = (req, res) => {
     });
 }
 
-const getLaureatesByYear = (req, res) => {
+const getNbLaureatesByYear = (req, res) => {
     const year = parseInt(req.params.year);
-    pool.query(queries.getLaureatesByYear, [year], (error, results) => {
+    pool.query(queries.getNbLaureatesByYear, [year], (error, results) => {
         if (error) { throw error; }
         res.status(200).json(results.rows)
     });
@@ -26,5 +26,5 @@ const getLaureatesByYear = (req, res) => {
 module.exports = {
     getNbLaureatesByYear,
     getYearsWithNoPrize,
-    getLaureatesByYear
+    getNbLaureatesByYear
 }

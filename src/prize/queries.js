@@ -6,3 +6,9 @@ const getYearsWithNoPrize = "SELECT prizes.year FROM prizes LEFT JOIN nomination
 
 // F8 : Afficher toutes les années de prix nobel triées par nombre de lauréats ascendant/descendant
 const getYearsByNbLaureates = "SELECT prizes.year, COUNT(*) AS nb_lauréats FROM prizes INNER JOIN nominations ON prizes.id_prize = nominations.id_prize GROUP BY prizes.year ORDER BY nb_lauréats DESC";
+
+module.exports = {
+    getNbLaureatesByYear,
+    getYearsWithNoPrize,
+    getYearsByNbLaureates
+}
